@@ -2,8 +2,21 @@ syntax = "proto3";
 
 package helloworld;
 
+import "google/api/annotations.proto";
+
 service HelloService {
-    rpc SayHello (HelloRequest) returns (HelloReply) {}
+    rpc SayHello (HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            post: "/hello"
+            body: "*"
+            additional_bindings {
+                get: "/hello/{name}"
+            }
+            additional_bindings {
+                get: "/sayhello/{name}"
+            }
+        };
+    }
     rpc StreamHello (HelloRequest) returns (stream HelloReply) {}
 }
 
